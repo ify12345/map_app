@@ -9,6 +9,9 @@ import Language from "./screens/onboarding/Language";
 import OnboardingSlides from "./screens/onboarding/OnboardingSlides";
 import Toast from "react-native-toast-message";
 import SignupOverview from "./screens/onboarding/SignupOverview";
+import Signup from "./screens/onboarding/Signup";
+import Signin from "./screens/onboarding/Signin";
+import SigninOverview from "./screens/onboarding/SigninOverview";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
@@ -65,6 +68,19 @@ export default function App() {
                         name="SignupOverview"
                         component={SignupOverview}
                         options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="SigninOverview"
+                        component={SigninOverview}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="Signup"
+                        component={Signup}
+                    />
+                    <Stack.Screen
+                        name="Signin"
+                        component={Signin}
                     />
                     <Stack.Screen name="Home" component={Home} />
                 </Stack.Navigator>

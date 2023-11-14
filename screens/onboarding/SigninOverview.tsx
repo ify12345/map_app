@@ -13,20 +13,20 @@ import GoogleIcon from "../../assets/icons/GoogleIcon";
 import AppleIcon from "../../assets/icons/AppleIcon";
 import { useNavigation } from "@react-navigation/native";
 
-const signupBg = require("../../assets/images/signup-overview.png");
+const signupBg = require("../../assets/images/signin-overview.png");
 
-const SignupOverview = () => {
+const SigninOverview = () => {
     const navigation: any = useNavigation();
     return (
         <SafeAreaView style={styles.wrapper}>
             <View style={styles.container}>
                 <View style={styles.top}>
                     <HText fontSize="24" fontWeight="semibold">
-                        Create an account
+                        Welcome back
                     </HText>
                     <HText fontWeight="medium" textStyle={styles.subtitle}>
-                        Create an account with roadersmap to see what’s the
-                        latest
+                        Sign in to your account with roadersmap to see what’s
+                        the latest
                     </HText>
                 </View>
                 <View style={styles.middle}>
@@ -44,7 +44,7 @@ const SignupOverview = () => {
                                 fontSize="16"
                                 fontWeight="semibold"
                             >
-                                Sign up with Google
+                                Sign in with Google
                             </HText>
                         </HTouchableOpacity>
                         <HTouchableOpacity
@@ -57,27 +57,27 @@ const SignupOverview = () => {
                                 fontSize="16"
                                 fontWeight="semibold"
                             >
-                                Sign up with Apple
+                                Sign in with Apple
                             </HText>
                         </HTouchableOpacity>
                         <HTouchableOpacity
                             style={styles.button}
                             backgroundColor="#9EFD38"
-                            onPress={() => navigation.navigate("Signup")}
+                            onPress={() => navigation.navigate("Signin")}
                         >
                             <HText fontSize="16" fontWeight="semibold">
-                                Sign up with Email
+                                Sign in with Email
                             </HText>
                         </HTouchableOpacity>
                     </View>
 
                     <View style={styles.bottomTexts}>
                         <HText color="#667185" fontSize="14">
-                            Already have an account?
+                            Don’t have an account?
                         </HText>
                         <TouchableOpacity
                             onPress={() =>
-                                navigation.navigate("SigninOverview")
+                                navigation.navigate("SignupOverview")
                             }
                         >
                             <HText
@@ -85,7 +85,7 @@ const SignupOverview = () => {
                                 fontSize="14"
                                 fontWeight="medium"
                             >
-                                Sign In
+                                Sign Up
                             </HText>
                         </TouchableOpacity>
                     </View>
@@ -139,4 +139,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SignupOverview;
+export default SigninOverview;
