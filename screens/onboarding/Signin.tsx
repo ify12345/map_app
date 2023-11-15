@@ -165,7 +165,7 @@ const Signup = () => {
                 </HTouchableOpacity>
 
                 <View style={styles.footerContainer}>
-                    <HText>Already have an account?</HText>
+                    <HText>Don't have an account?</HText>
                     <HTouchableOpacity
                         onPress={() => navigation.navigate("SignupOverview")}
                     >
