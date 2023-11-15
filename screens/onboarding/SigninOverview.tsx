@@ -24,7 +24,11 @@ const SigninOverview = () => {
                     <HText fontSize="24" fontWeight="semibold">
                         Welcome back
                     </HText>
-                    <HText fontWeight="medium" textStyle={styles.subtitle}>
+                    <HText
+                        fontWeight="medium"
+                        textStyle={styles.subtitle}
+                        color="#777777"
+                    >
                         Sign in to your account with roadersmap to see what’s
                         the latest
                     </HText>
@@ -75,11 +79,7 @@ const SigninOverview = () => {
                         <HText color="#667185" fontSize="14">
                             Don’t have an account?
                         </HText>
-                        <TouchableOpacity
-                            onPress={() =>
-                                navigation.navigate("SignupOverview")
-                            }
-                        >
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
                             <HText
                                 color="#5DB400"
                                 fontSize="14"

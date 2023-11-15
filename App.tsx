@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./Tabs/Home";
+import Home from "./screens/Tabs/Home";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
@@ -12,6 +12,7 @@ import SignupOverview from "./screens/onboarding/SignupOverview";
 import Signup from "./screens/onboarding/Signup";
 import Signin from "./screens/onboarding/Signin";
 import SigninOverview from "./screens/onboarding/SigninOverview";
+import PointOfInterest from "./screens/onboarding/PointOfInterest";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
@@ -77,12 +78,23 @@ export default function App() {
                     <Stack.Screen
                         name="Signup"
                         component={Signup}
+                        options={{ headerShown: false }}
                     />
                     <Stack.Screen
                         name="Signin"
                         component={Signin}
+                        options={{ headerShown: false }}
                     />
-                    <Stack.Screen name="Home" component={Home} />
+                    <Stack.Screen
+                        name="PointOfInterest"
+                        component={PointOfInterest}
+                        // options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="Home"
+                        component={Home}
+                        options={{ headerShown: false }}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
             <Toast />

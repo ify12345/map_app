@@ -24,7 +24,7 @@ const SignupOverview = () => {
                     <HText fontSize="24" fontWeight="semibold">
                         Create an account
                     </HText>
-                    <HText fontWeight="medium" textStyle={styles.subtitle}>
+                    <HText fontWeight="medium" textStyle={styles.subtitle} color="#777777">
                         Create an account with roadersmap to see what’s the
                         latest
                     </HText>

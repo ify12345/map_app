@@ -1,6 +1,11 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
-import React from "react";
-import { MagnifyingGlassIcon } from "react-native-heroicons/solid";
+import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import React, { useState } from "react";
+import {
+    CheckBadgeIcon,
+    CheckIcon,
+    DocumentCheckIcon,
+    MagnifyingGlassIcon,
+} from "react-native-heroicons/solid";
 import HText from "./HText";
 import { RFValue } from "react-native-responsive-fontsize";
 
@@ -11,6 +16,11 @@ interface _iProps {
     label?: string;
     type?: 2;
     error?: any;
+}
+
+interface _checkbox {
+    checked?: boolean;
+    setChecked?: any;
 }
 
 const HSearchInput = (props: _iProps) => {
@@ -65,6 +75,28 @@ const HInput = (props: _iProps) => {
     );
 };
 
+const HCheckbox = (props: _checkbox) => {
+    const { checked, setChecked } = props;
+    return (
+        <Pressable
+            style={[
+                styles.checkbox,
+                { backgroundColor: checked ? "#5DB400" : "#ffffff" },
+            ]}
+            onPress={() => setChecked(checked)}
+        >
+            {checked && (
+                <CheckIcon
+                    color="#fff"
+                    fontWeight={800}
+                    width={18}
+                    height={18}
+                />
+            )}
+        </Pressable>
+    );
+};
+
 const styles = StyleSheet.create({
     inputContainer: {
         flexDirection: "row",
@@ -110,6 +142,15 @@ const styles = StyleSheet.create({
         lineHeight: 20,
         marginBottom: 5,
     },
+    checkbox: {
+        width: 20,
+        height: 20,
+        borderColor: "#777777",
+        borderWidth: 2,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: "center",
+    },
 });
 
-export { HSearchInput, HInput };
+export { HSearchInput, HInput, HCheckbox };

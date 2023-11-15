@@ -1,4 +1,11 @@
-import { View, Text, Button, TouchableOpacity, StyleSheet } from "react-native";
+import {
+    View,
+    Text,
+    Button,
+    TouchableOpacity,
+    StyleSheet,
+    ActivityIndicator,
+} from "react-native";
 import React from "react";
 
 type _props = {
@@ -8,13 +15,17 @@ type _props = {
     children?: any;
     gap?: number;
     onPress?: any;
+    disabled?: boolean;
+    loading?: boolean;
 };
 
 const HTouchableOpacity = (props: _props) => {
-    const { width, backgroundColor, style, children, gap } = props;
+    const { width, backgroundColor, style, children, gap, disabled, loading } =
+        props;
     return (
         <TouchableOpacity
             {...props}
+            disabled={disabled}
             activeOpacity={0.7}
             style={[
                 {
@@ -28,11 +39,12 @@ const HTouchableOpacity = (props: _props) => {
                     shadowColor: "#f0f0f0",
                     shadowOffset: { width: 1, height: 1 },
                     shadowOpacity: 5,
+                    opacity: disabled ? 0.5 : 1,
                 },
                 style,
             ]}
         >
-            {children}
+            {loading ? <ActivityIndicator /> : children}
         </TouchableOpacity>
     );
 };
