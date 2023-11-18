@@ -1,14 +1,4 @@
-import {
-    View,
-    Text,
-    SafeAreaView,
-    StyleSheet,
-    Platform,
-    Touchable,
-    TouchableOpacity,
-    ScrollView,
-    Image,
-} from "react-native";
+import { View, StyleSheet, ScrollView, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import BackButton from "../../components/BackButton";
 import HText from "../../components/HText";
@@ -17,6 +7,7 @@ import HTouchableOpacity from "../../components/HTouchableOpacity";
 import { devInstance } from "../../store/devInstance";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const signupImage = require("../../assets/images/signup-screen.png");
 
@@ -134,6 +125,7 @@ const Signup = () => {
                                 first_name: text,
                             })
                         }
+                        value={formData.first_name}
                     />
                     <HInput
                         label="Last Name"
@@ -144,6 +136,7 @@ const Signup = () => {
                                 last_name: text,
                             })
                         }
+                        value={formData.last_name}
                     />
                     <HInput
                         label="Username"
@@ -154,6 +147,7 @@ const Signup = () => {
                                 user_id: text,
                             })
                         }
+                        value={formData.user_id}
                     />
                     <HInput
                         label="Email"
@@ -161,29 +155,34 @@ const Signup = () => {
                         onChangeText={(text: any) =>
                             setFormData({
                                 ...formData,
-                                email: text,
+                                email: text.toLowerCase(),
                             })
                         }
+                        value={formData.email}
                     />
                     <HInput
                         label="Password"
                         placeholder="Password"
+                        textType="password"
                         onChangeText={(text: any) =>
                             setFormData({
                                 ...formData,
                                 password: text,
                             })
                         }
+                        value={formData.password}
                     />
                     <HInput
                         label="Confirm Password"
                         placeholder="ConfirmPassword"
+                        textType="password"
                         onChangeText={(text: any) =>
                             setFormData({
                                 ...formData,
                                 confirmPassword: text,
                             })
                         }
+                        value={formData.confirmPassword}
                     />
                 </View>
                 <View style={styles.checkboxContainer}>
@@ -230,7 +229,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingTop: Platform.OS === "ios" ? 20 : 50,
+        paddingTop: 20,
         paddingHorizontal: 20,
     },
     image: {

@@ -1,6 +1,6 @@
 import axios from "axios";
-// import { setAuthToken, setUser } from "./auth-slice";
-
+import { setAuthToken } from "./authSlice";
+const DEV_API_URL = "http://127.0.0.1:8000/api";
 const API_URL = "https://staging.roadersmap.com/api";
 
 export const devInstance = axios.create({
@@ -17,10 +17,7 @@ devInstance.interceptors.response.use(
     },
     (error: any) => {
         if (error?.response?.status === 401) {
-            localStorage.removeItem("persist:root");
-            localStorage.removeItem("token");
-            // setUser(null);
-            // setAuthToken(null);
+            setAuthToken(null);
         }
         return Promise.reject(error);
     }

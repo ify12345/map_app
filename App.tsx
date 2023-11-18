@@ -13,6 +13,10 @@ import Signup from "./screens/onboarding/Signup";
 import Signin from "./screens/onboarding/Signin";
 import SigninOverview from "./screens/onboarding/SigninOverview";
 import PointOfInterest from "./screens/onboarding/PointOfInterest";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import ForgotPassword from "./screens/onboarding/ForgotPassword";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
@@ -52,52 +56,61 @@ export default function App() {
     }
 
     return (
-        <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName="Languages">
-                    <Stack.Screen
-                        name="Languages"
-                        component={Language}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="OnboardingSlides"
-                        component={OnboardingSlides}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="SignupOverview"
-                        component={SignupOverview}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="SigninOverview"
-                        component={SigninOverview}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="Signup"
-                        component={Signup}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="Signin"
-                        component={Signin}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="PointOfInterest"
-                        component={PointOfInterest}
-                        // options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="Home"
-                        component={Home}
-                        options={{ headerShown: false }}
-                    />
-                </Stack.Navigator>
-            </NavigationContainer>
-            <Toast />
-        </View>
+        <Provider store={store}>
+            <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+                <SafeAreaProvider>
+                    <NavigationContainer>
+                        <Stack.Navigator initialRouteName="Languages">
+                            <Stack.Screen
+                                name="Languages"
+                                component={Language}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="OnboardingSlides"
+                                component={OnboardingSlides}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="SignupOverview"
+                                component={SignupOverview}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="SigninOverview"
+                                component={SigninOverview}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Signup"
+                                component={Signup}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Signin"
+                                component={Signin}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="ForgotPasswordScreen1"
+                                component={ForgotPassword}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="PointOfInterest"
+                                component={PointOfInterest}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="EventsHome"
+                                component={Home}
+                                options={{ headerShown: false }}
+                            />
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                    <Toast />
+                </SafeAreaProvider>
+            </View>
+        </Provider>
     );
 }

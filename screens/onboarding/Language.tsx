@@ -2,10 +2,8 @@ import {
     View,
     ImageBackground,
     StyleSheet,
-    SafeAreaView,
     FlatList,
     TouchableOpacity,
-    Platform,
 } from "react-native";
 import React, { useState } from "react";
 import CheckIcon from "../../assets/icons/CheckIcon";
@@ -13,6 +11,7 @@ import HText from "../../components/HText";
 import { HSearchInput } from "../../components/HForm";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const backgroundImg = require("../../assets/images/pattern2.png");
 
@@ -108,6 +107,7 @@ const Language = () => {
             </TouchableOpacity>
         );
     };
+    
 
     return (
         <ImageBackground source={backgroundImg} style={styles.wrapper}>
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         paddingHorizontal: 20,
-        marginTop: Platform.OS === "ios" ? 20 : 50,
+        marginTop: 20,
         alignItems: "center",
         marginBottom: 24,
     },

@@ -1,22 +1,13 @@
-import {
-    View,
-    Text,
-    SafeAreaView,
-    StyleSheet,
-    Platform,
-    Touchable,
-    TouchableOpacity,
-    ScrollView,
-    Image,
-} from "react-native";
+import { View, StyleSheet, ScrollView, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import BackButton from "../../components/BackButton";
 import HText from "../../components/HText";
 import { HCheckbox, HInput } from "../../components/HForm";
 import HTouchableOpacity from "../../components/HTouchableOpacity";
-import { devInstance } from "../../store/devInstance";
-import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch } from "../../store/hooks";
+import { loginUser } from "../../store/authSlice";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const signinImage1 = require("../../assets/images/signin-screen1.png");
 
@@ -25,10 +16,10 @@ const signinImage2 = require("../../assets/images/signin-screen2.png");
 const signinImage3 = require("../../assets/images/signin-screen3.png");
 
 const Signup = () => {
+    const dispatch = useAppDispatch();
     const navigation: any = useNavigation();
     const [checked, setChecked] = useState(false);
-
-    const [error, setError] = useState("");
+    const [inputDisabled, setInputDisabled] = useState(false);
 
     const setCheckboxVal = (val: Boolean) => {
         setChecked(!val);
@@ -50,28 +41,27 @@ const Signup = () => {
         }
     }, [formData]);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(formData);
-        setDisabled(true);
-        setLoading(true);
-        devInstance
-            .post("/auth", {
-                email: formData.email,
-                password: formData.password,
-            })
-            .then(() => {
-                Toast.show({
-                    type: "success",
-                    text1: "You have successfully logged in",
-                    text2: "Pick your interests to continue",
-                });
+        try {
+            setDisabled(true);
+            setLoading(true);
+            setInputDisabled(true);
+            let res: any = await dispatch(loginUser(formData));
+            let errors =
+                res.meta.rejectedWithValue === true ||
+                res.meta.requestStatus === "rejected";
+
+            if (!errors) {
                 navigation.navigate("PointOfInterest");
-            })
-            .catch((err) => console.log(err))
-            .finally(() => {
-                setDisabled(false);
-                setLoading(false);
-            });
+            }
+        } catch (error: any) {
+            setDisabled(false);
+        } finally {
+            setLoading(false);
+            setDisabled(false);
+            setInputDisabled(false);
+        }
     };
 
     return (
@@ -108,24 +98,30 @@ const Signup = () => {
                 </View>
                 <View style={styles.inputContainer}>
                     <HInput
+                        disabled={inputDisabled}
                         label="Email"
                         placeholder="Email"
+                        textType={"emailAddress"}
                         onChangeText={(text: any) =>
                             setFormData({
                                 ...formData,
-                                email: text,
+                                email: text.toLowerCase(),
                             })
                         }
+                        value={formData.email}
                     />
                     <HInput
+                        disabled={inputDisabled}
                         label="Password"
                         placeholder="Password"
+                        textType={"password"}
                         onChangeText={(text: any) =>
                             setFormData({
                                 ...formData,
                                 password: text,
                             })
                         }
+                        value={formData.password}
                     />
                 </View>
                 <View style={styles.containerRow}>
@@ -142,7 +138,11 @@ const Signup = () => {
                             Remember me
                         </HText>
                     </View>
-                    <HTouchableOpacity>
+                    <HTouchableOpacity
+                        onPress={() =>
+                            navigation.navigate("ForgotPasswordScreen1")
+                        }
+                    >
                         <HText
                             color="#5DB400"
                             fontSize="10"
@@ -160,7 +160,7 @@ const Signup = () => {
                     loading={loading}
                 >
                     <HText fontSize="16" fontWeight="semibold">
-                        Sign up
+                        Sign in
                     </HText>
                 </HTouchableOpacity>
 
@@ -174,7 +174,7 @@ const Signup = () => {
                             fontSize="14"
                             fontWeight="medium"
                         >
-                            Sign In
+                            Sign Up
                         </HText>
                     </HTouchableOpacity>
                 </View>
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingTop: Platform.OS === "ios" ? 20 : 50,
+        paddingTop: 20,
         paddingHorizontal: 20,
     },
     imagesContainer: {

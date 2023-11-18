@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import React, { useState } from "react";
 import {
-    CheckBadgeIcon,
+    EyeIcon,
+    EyeSlashIcon,
     CheckIcon,
-    DocumentCheckIcon,
     MagnifyingGlassIcon,
 } from "react-native-heroicons/solid";
 import HText from "./HText";
 import { RFValue } from "react-native-responsive-fontsize";
+import HTouchableOpacity from "./HTouchableOpacity";
 
 interface _iProps {
     placeholder?: string;
@@ -16,6 +17,9 @@ interface _iProps {
     label?: string;
     type?: 2;
     error?: any;
+    textType?: any;
+    autoCorrection?: boolean;
+    disabled?: boolean;
 }
 
 interface _checkbox {
@@ -45,7 +49,18 @@ const HSearchInput = (props: _iProps) => {
 };
 
 const HInput = (props: _iProps) => {
-    const { placeholder, label, type, error } = props;
+    const {
+        placeholder,
+        label,
+        type,
+        error,
+        textType,
+        autoCorrection,
+        disabled,
+    } = props;
+
+    const [secureEntry, setSecureEntry] = useState(true);
+
     return (
         <View>
             {label && (
@@ -57,11 +72,31 @@ const HInput = (props: _iProps) => {
                     {label}
                 </HText>
             )}
-            <TextInput
-                style={type === 2 ? styles.textInput2 : styles.textInput}
-                placeholder={placeholder}
-                {...props}
-            />
+            <View style={styles.inputRow}>
+                <TextInput
+                    style={type === 2 ? styles.textInput2 : styles.textInput}
+                    placeholder={placeholder}
+                    textContentType={textType ? textType : "none"}
+                    autoCorrect={autoCorrection}
+                    secureTextEntry={
+                        textType !== "password" ? false : secureEntry
+                    }
+                    {...props}
+                />
+
+                {textType === "password" && (
+                    <HTouchableOpacity
+                        style={styles.iconContainer}
+                        onPress={() => setSecureEntry(!secureEntry)}
+                    >
+                        {!secureEntry ? (
+                            <EyeIcon color="#ccc" size={22} />
+                        ) : (
+                            <EyeSlashIcon color="#ccc" size={22} />
+                        )}
+                    </HTouchableOpacity>
+                )}
+            </View>
             {error && (
                 <HText
                     fontSize="14"
@@ -127,6 +162,9 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         borderWidth: 2,
         borderColor: "#F0F0F0",
+        shadowColor: "#f0f0f0",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 5,
     },
     textInput2: {
         backgroundColor: "#F0F0F0",
@@ -137,6 +175,9 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         borderWidth: 2,
         borderColor: "#F0F0F0",
+        shadowColor: "#f0f0f0",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 5,
     },
     label: {
         lineHeight: 20,
@@ -150,6 +191,17 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: "center",
         justifyContent: "center",
+    },
+    inputRow: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    iconContainer: {
+        width: 20,
+        height: 20,
+        position: "absolute",
+        right: 14,
+        zIndex: 1,
     },
 });
 
