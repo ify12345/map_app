@@ -99,7 +99,6 @@ const HInput = (props: _iProps) => {
             </View>
             {error && (
                 <HText
-                    fontSize="14"
                     color="#667185"
                     textStyle={{ marginTop: 8 }}
                 >

@@ -41,6 +41,7 @@ const PointOfInterest = () => {
             .get("/place_types")
             .then((res) => {
                 setTags(res?.data?.data);
+                console.log(res?.data, "data data")
             })
             .catch((err: any) => {
                 Toast.show({
@@ -78,9 +79,14 @@ const PointOfInterest = () => {
                 place_type_ids: [...selectedTagsIds],
             })
             .then(() => {
-                navigation.navigate("EventsHome");
+                navigation.navigate("Tabs");
             })
-            .catch((err) => console.log(err))
+            .catch((err) =>
+                Toast.show({
+                    type: "error",
+                    text1: "Error performing action, try again!",
+                })
+            )
             .finally(() => setLoading(false));
     };
 
@@ -180,7 +186,7 @@ const PointOfInterest = () => {
                                 <HTouchableOpacity
                                     style={[styles.leftButton, styles.button]}
                                     onPress={() =>
-                                        navigation.navigate("EventsHome")
+                                        navigation.navigate("Tabs")
                                     }
                                 >
                                     <HText fontSize="16" fontWeight="semibold">

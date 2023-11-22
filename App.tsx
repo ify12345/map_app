@@ -1,6 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./screens/Tabs/Home";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
@@ -17,6 +16,8 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ForgotPassword from "./screens/onboarding/ForgotPassword";
+import ForgotPassword2 from "./screens/onboarding/ForgotPassword2";
+import Tabs from "./screens/Tabs";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
@@ -33,7 +34,7 @@ export default function App() {
     useEffect(() => {
         async function prepare() {
             try {
-                await fontsLoaded;
+                fontsLoaded;
                 await new Promise((resolve) => setTimeout(resolve, 2000));
             } catch (e) {
                 console.warn(e);
@@ -97,13 +98,18 @@ export default function App() {
                                 options={{ headerShown: false }}
                             />
                             <Stack.Screen
+                                name="ForgotPasswordScreen2"
+                                component={ForgotPassword2}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
                                 name="PointOfInterest"
                                 component={PointOfInterest}
                                 options={{ headerShown: false }}
                             />
                             <Stack.Screen
-                                name="EventsHome"
-                                component={Home}
+                                name="Tabs"
+                                component={Tabs}
                                 options={{ headerShown: false }}
                             />
                         </Stack.Navigator>

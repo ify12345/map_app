@@ -7,13 +7,79 @@ import CancelIcon from "../../assets/icons/cancelIcon";
 import { HInput } from "../../components/HForm";
 import { useNavigation } from "@react-navigation/native";
 import { openInbox } from "react-native-email-link";
+import { devInstance } from "../../store/devInstance";
+import Toast from "react-native-toast-message";
+import OtpInput from "../../components/OtpInputs";
 
 const image1 = require("../../assets/images/forgotPassword1.png");
+const image2 = require("../../assets/images/forgotPassword2.png");
 
 const ForgotPassword = () => {
     const [loading, setLoading] = useState(false);
     const navigation: any = useNavigation();
     const [emailSent, setEmailSent] = useState(false);
+    const [email, setEmail] = useState("");
+    const [otp, setOtp] = useState(["", "", "", ""]);
+    const mergedOtp = otp[0] + otp[1] + otp[2] + otp[3];
+
+    const inputs: any = [];
+
+    const handleChange = (value: string, index: number) => {
+        const newOtp = [...otp];
+        newOtp[index] = value;
+        setOtp(newOtp);
+        value && index < newOtp.length - 1 && inputs[index + 1].focus();
+        console.log(mergedOtp);
+    };
+
+    const sendMail = async () => {
+        try {
+            setLoading(true);
+            let res = await devInstance.post("/user/send_validation_code", {
+                email: email,
+            });
+            if (res) {
+                setEmailSent(true);
+                Toast.show({
+                    type: "success",
+                    text1: "Email sent!",
+                    text2: "Check your mailbox to reset your password",
+                });
+            }
+        } catch (err) {
+            Toast.show({
+                type: "error",
+                text1: "Error sending email, try again!",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const sentOtp = async () => {
+        try {
+            setLoading(true);
+            let res = await devInstance.post("/validate_forget_password_code", {
+                user_id: email,
+                code: Number(mergedOtp),
+            });
+            console.log(res?.status);
+            // if (res.status === 200) {
+            //     Toast.show({
+            //         type: "success",
+            //         text1: "Code Matched Successfully",
+            //     });
+            // }
+            navigation.navigate("ForgotPasswordScreen2");
+        } catch (err) {
+            Toast.show({
+                type: "error",
+                text1: "Error",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <SafeAreaView style={styles.wrapper}>
@@ -26,10 +92,10 @@ const ForgotPassword = () => {
                 </HTouchableOpacity>
             </View>
             <View style={styles.contentContainer}>
-                <Image source={image1} />
+                <Image source={emailSent ? image2 : image1} />
                 {emailSent ? (
                     <HText color="#5DB400" fontSize="16" fontWeight="semibold">
-                        Check your mail
+                        Enter Code
                     </HText>
                 ) : (
                     <HText color="#5DB400" fontSize="16" fontWeight="semibold">
@@ -45,14 +111,14 @@ const ForgotPassword = () => {
                                 color="#777777"
                                 textStyle={styles.text}
                             >
-                                We have sent instructions to your
+                                Please enter the 4 digit code sent to
                             </HText>
                             <HText
                                 fontWeight="medium"
-                                color="#777777"
+                                color="#1F1F1F"
                                 textStyle={styles.text}
                             >
-                                mail to create a new password
+                                {email}
                             </HText>
                         </>
                     ) : (
@@ -70,9 +136,25 @@ const ForgotPassword = () => {
                         </>
                     )}
                 </View>
-                {!emailSent && (
+                {emailSent ? (
+                    <View>
+                        <OtpInput
+                            otp={otp}
+                            handleChange={handleChange}
+                            inputs={inputs}
+                        />
+                    </View>
+                ) : (
                     <View style={styles.inputContainer}>
-                        <HInput type={2} placeholder="Email" />
+                        <HInput
+                            textType={"email"}
+                            type={2}
+                            placeholder="Email"
+                            onChangeText={(text: string) =>
+                                setEmail(text.toLowerCase())
+                            }
+                            value={email}
+                        />
                     </View>
                 )}
 
@@ -85,11 +167,12 @@ const ForgotPassword = () => {
                             },
                         ]}
                         backgroundColor="#9EFD38"
-                        onPress={() => openInbox()}
+                        onPress={sentOtp}
                         loading={loading}
+                        disabled={mergedOtp.length < 4 ? true : false}
                     >
                         <HText fontSize="16" fontWeight="semibold">
-                            Open Email app
+                            Continue
                         </HText>
                     </HTouchableOpacity>
                 ) : (
@@ -101,8 +184,9 @@ const ForgotPassword = () => {
                             },
                         ]}
                         backgroundColor="#9EFD38"
-                        onPress={() => setEmailSent(true)}
+                        onPress={sendMail}
                         loading={loading}
+                        disabled={!email ? true : false}
                     >
                         <HText fontSize="16" fontWeight="semibold">
                             Send request

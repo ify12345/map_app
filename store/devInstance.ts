@@ -4,7 +4,7 @@ const DEV_API_URL = "http://127.0.0.1:8000/api";
 const API_URL = "https://staging.roadersmap.com/api";
 
 export const devInstance = axios.create({
-    baseURL: API_URL,
+    baseURL: DEV_API_URL,
 });
 
 devInstance.interceptors.response.use(

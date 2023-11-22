@@ -54,6 +54,7 @@ const SigninOverview = () => {
                         <HTouchableOpacity
                             style={styles.button}
                             backgroundColor="#0F172A"
+                            onPress={() => navigation.navigate("Tabs")}
                         >
                             <AppleIcon />
                             <HText
