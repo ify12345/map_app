@@ -9,10 +9,15 @@ import {
     BookmarkIcon,
     UserIcon,
 } from "react-native-heroicons/outline";
+import { useState } from "react";
 
 const Tab = createBottomTabNavigator();
 
 function Tabs() {
+    const [hide, setHide] = useState(false);
+    function hideTab() {
+        setHide(!hide);
+    }
     return (
         <Tab.Navigator>
             <Tab.Screen
@@ -29,16 +34,20 @@ function Tabs() {
             />
             <Tab.Screen
                 name="Go"
-                component={Go}
                 options={{
-                    // headerShown: false,
+                    tabBarStyle: {
+                        display: hide ? "none" : "flex",
+                    },
+                    headerShown: false,
                     tabBarIcon: ({ color }) => (
                         <MapIcon color={color} size={28} />
                     ),
                     tabBarActiveTintColor: "#5DB400",
                     tabBarInactiveTintColor: "#777777",
                 }}
-            />
+            >
+                {(props) => <Go {...props} hideTab={hideTab} />}
+            </Tab.Screen>
             <Tab.Screen
                 name="Saved"
                 component={Saved}

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import {
     EyeIcon,
     EyeSlashIcon,
@@ -9,6 +9,7 @@ import {
 import HText from "./HText";
 import { RFValue } from "react-native-responsive-fontsize";
 import HTouchableOpacity from "./HTouchableOpacity";
+import RadioGreen from "../assets/icons/Radio";
 
 interface _iProps {
     placeholder?: string;
@@ -16,10 +17,15 @@ interface _iProps {
     onChangeText?: any;
     label?: string;
     type?: 2;
+    icon?: 2;
     error?: any;
     textType?: any;
     autoCorrection?: boolean;
     disabled?: boolean;
+    onFocus?: any;
+    onPressIn?: any;
+    onBlur?: any;
+    ref?: any;
 }
 
 interface _checkbox {
@@ -27,8 +33,8 @@ interface _checkbox {
     setChecked?: any;
 }
 
-const HSearchInput = (props: _iProps) => {
-    const { placeholder } = props;
+const HSearchInput = forwardRef((props: _iProps, ref) => {
+    const { placeholder, icon } = props;
     return (
         <View
             style={[
@@ -38,15 +44,20 @@ const HSearchInput = (props: _iProps) => {
                 },
             ]}
         >
-            <MagnifyingGlassIcon color="#667185" width={20} />
+            {icon === 2 ? (
+                <RadioGreen />
+            ) : (
+                <MagnifyingGlassIcon color="#667185" width={20} />
+            )}
             <TextInput
                 style={styles.input}
                 placeholder={placeholder}
+                ref={ref}
                 {...props}
             />
         </View>
     );
-};
+});
 
 const HInput = (props: _iProps) => {
     const {
@@ -98,10 +109,7 @@ const HInput = (props: _iProps) => {
                 )}
             </View>
             {error && (
-                <HText
-                    color="#667185"
-                    textStyle={{ marginTop: 8 }}
-                >
+                <HText color="#667185" textStyle={{ marginTop: 8 }}>
                     {error}
                 </HText>
             )}

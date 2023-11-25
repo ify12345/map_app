@@ -18,9 +18,12 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import ForgotPassword from "./screens/onboarding/ForgotPassword";
 import ForgotPassword2 from "./screens/onboarding/ForgotPassword2";
 import Tabs from "./screens/Tabs";
+import * as Linking from "expo-linking";
+import HText from "./components/HText";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
+const prefix = Linking.createURL("/");
 
 export default function App() {
     const [appIsReady, setAppIsReady] = useState(false);
@@ -30,6 +33,10 @@ export default function App() {
         GeneralSansMedium: require("./assets/fonts/GeneralSans-Medium.ttf"),
         GeneralSansSemibold: require("./assets/fonts/GeneralSans-Semibold.ttf"),
     });
+
+    const linking = {
+        prefixes: [prefix],
+    };
 
     useEffect(() => {
         async function prepare() {
@@ -60,7 +67,7 @@ export default function App() {
         <Provider store={store}>
             <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
                 <SafeAreaProvider>
-                    <NavigationContainer>
+                    <NavigationContainer linking={linking} fallback={<HText>Loading...</HText>}>
                         <Stack.Navigator initialRouteName="Languages">
                             <Stack.Screen
                                 name="Languages"

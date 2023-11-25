@@ -63,7 +63,7 @@ const ForgotPassword = () => {
                 user_id: email,
                 code: Number(mergedOtp),
             });
-            console.log(res?.status);
+            console.log(res?.status, "status code");
             // if (res.status === 200) {
             //     Toast.show({
             //         type: "success",
