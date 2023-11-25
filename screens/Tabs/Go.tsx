@@ -365,6 +365,63 @@ const Go = (props: any) => {
                         </View>
                     )}
 
+                    {startJourney && (
+                        <View
+                            style={{
+                                height: 127,
+                                width: width - 40,
+                                marginLeft: 20,
+                                backgroundColor: "#fff",
+                                position: "absolute",
+                                bottom: 20,
+                                left: 0,
+                                borderRadius: 16,
+                                paddingHorizontal: 16,
+                                gap: 20,
+                                justifyContent: "center",
+                                // alignItems: "center",
+                            }}
+                        >
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    gap: 16,
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <HTouchableOpacity
+                                    style={[
+                                        styles.button,
+                                        { backgroundColor: "#9EFD38" },
+                                    ]}
+                                >
+                                    <HText fontSize="16">50km</HText>
+                                </HTouchableOpacity>
+
+                                <HText fontSize="16" fontWeight="medium">
+                                    34min, 23sec
+                                </HText>
+
+                                <HTouchableOpacity
+                                    style={[
+                                        styles.button,
+                                        { backgroundColor: "#9EFD38" },
+                                    ]}
+                                >
+                                    <CancelIcon />
+                                </HTouchableOpacity>
+                            </View>
+                            <HText
+                                fontSize="14"
+                                fontWeight="medium"
+                                textStyle={{ textAlign: "center" }}
+                            >
+                                You will arrive at 6:08pm
+                            </HText>
+                        </View>
+                    )}
+
                     {destination && (
                         <MapViewDirections
                             origin={{
