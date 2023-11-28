@@ -37,6 +37,7 @@ const SignupOverview = () => {
                         <HTouchableOpacity
                             style={styles.button}
                             backgroundColor="#3975EA"
+                            onPress={() => navigation.navigate("RecommendedPlaces")}
                         >
                             <GoogleIcon />
                             <HText

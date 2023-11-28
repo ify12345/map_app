@@ -41,6 +41,7 @@ const SigninOverview = () => {
                         <HTouchableOpacity
                             style={styles.button}
                             backgroundColor="#3975EA"
+                            onPress={() => navigation.navigate("NearbyPlaces")}
                         >
                             <GoogleIcon />
                             <HText

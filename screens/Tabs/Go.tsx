@@ -351,8 +351,8 @@ const Go = (props: any) => {
                         >
                             <Image source={routeArrow} />
                             <View style={{ position: "relative" }}>
-                                <HText fontSize="18" fontWeight="medium">
-                                    {destination?.name.slice(0, 10)}...
+                                <HText fontSize="16" fontWeight="medium">
+                                    {destination?.name.slice(0, 10)}
                                 </HText>
                                 <HText fontWeight="medium">
                                     {(destination?.address &&
@@ -365,7 +365,7 @@ const Go = (props: any) => {
                         </View>
                     )}
 
-                    {startJourney && (
+                    {/* {startJourney && (
                         <View
                             style={{
                                 height: 127,
@@ -420,7 +420,7 @@ const Go = (props: any) => {
                                 You will arrive at 6:08pm
                             </HText>
                         </View>
-                    )}
+                    )} */}
 
                     {destination && (
                         <MapViewDirections

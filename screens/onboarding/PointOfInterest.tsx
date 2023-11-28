@@ -41,7 +41,7 @@ const PointOfInterest = () => {
             .get("/place_types")
             .then((res) => {
                 setTags(res?.data?.data);
-                console.log(res?.data, "data data")
+                console.log(res?.data, "data data");
             })
             .catch((err: any) => {
                 Toast.show({
@@ -185,9 +185,7 @@ const PointOfInterest = () => {
                             <View style={styles.actionsContainer}>
                                 <HTouchableOpacity
                                     style={[styles.leftButton, styles.button]}
-                                    onPress={() =>
-                                        navigation.navigate("Tabs")
-                                    }
+                                    onPress={() => navigation.navigate("Tabs")}
                                 >
                                     <HText fontSize="16" fontWeight="semibold">
                                         skip

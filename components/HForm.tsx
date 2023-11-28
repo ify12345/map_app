@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
         height: 48,
         flexGrow: 1,
         paddingHorizontal: 10,
+        paddingBottom: 6,
         fontSize: RFValue(14),
         lineHeight: RFValue(20.03),
     },

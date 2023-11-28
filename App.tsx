@@ -20,6 +20,8 @@ import ForgotPassword2 from "./screens/onboarding/ForgotPassword2";
 import Tabs from "./screens/Tabs";
 import * as Linking from "expo-linking";
 import HText from "./components/HText";
+import NearbyPlaces from "./screens/NearbyPlaces";
+import RecommendedPlaces from "./screens/RecommendedPlaces";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
@@ -67,7 +69,10 @@ export default function App() {
         <Provider store={store}>
             <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
                 <SafeAreaProvider>
-                    <NavigationContainer linking={linking} fallback={<HText>Loading...</HText>}>
+                    <NavigationContainer
+                        linking={linking}
+                        fallback={<HText>Loading...</HText>}
+                    >
                         <Stack.Navigator initialRouteName="Languages">
                             <Stack.Screen
                                 name="Languages"
@@ -118,6 +123,22 @@ export default function App() {
                                 name="Tabs"
                                 component={Tabs}
                                 options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="NearbyPlaces"
+                                component={NearbyPlaces}
+                                options={{
+                                    headerTitle: "Nearby Places",
+                                    headerTintColor: "#1f1f1f",
+                                }}
+                            />
+                            <Stack.Screen
+                                name="RecommendedPlaces"
+                                component={RecommendedPlaces}
+                                options={{
+                                    headerTitle: "Recommended Places",
+                                    headerTintColor: "#1f1f1f",
+                                }}
                             />
                         </Stack.Navigator>
                     </NavigationContainer>
