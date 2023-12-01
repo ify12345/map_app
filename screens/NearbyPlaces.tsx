@@ -1,4 +1,5 @@
 import {
+    ActivityIndicator,
     FlatList,
     Image,
     ScrollView,
@@ -14,7 +15,6 @@ import CreditCardIcon from "../assets/icons/CreditCardIcon";
 import CartIcon from "../assets/icons/CartIcon";
 import CupIcon from "../assets/icons/CupIcon";
 import WaterdropIcon from "../assets/icons/Waterdrop";
-import HTouchableOpacity from "../components/HTouchableOpacity";
 import HText from "../components/HText";
 import { devInstance } from "../store/devInstance";
 import Toast from "react-native-toast-message";
@@ -24,10 +24,12 @@ const starIcon = require("../assets/icons/star.png");
 const Place = ({ item }: any) => {
     return (
         <TouchableOpacity style={styles.place}>
-            <Image source={item?.image} style={styles.placeImage} />
+            <Image source={{ uri: item?.image }} style={styles.placeImage} />
             <View style={styles.placeContent}>
                 <HText fontSize="14" fontWeight="semibold">
-                    {item?.title}
+                    {item?.name?.length > 16
+                        ? item?.name?.slice(0, 16) + "..."
+                        : item?.name}
                 </HText>
                 <View style={styles.placeRow}>
                     <View
@@ -35,7 +37,7 @@ const Place = ({ item }: any) => {
                             styles.chip,
                             {
                                 backgroundColor:
-                                    item?.status === "Open"
+                                    item?.business_status === "OPERATIONAL"
                                         ? "#EDFFDA"
                                         : "#F0F0F0",
                             },
@@ -43,17 +45,21 @@ const Place = ({ item }: any) => {
                     >
                         <HText
                             color={
-                                item?.status === "Open" ? "#5DB400" : "#777777"
+                                item?.business_status === "OPERATIONAL"
+                                    ? "#5DB400"
+                                    : "#777777"
                             }
                             fontWeight="medium"
                         >
-                            {item?.status}
+                            {item?.business_status === "OPERATIONAL"
+                                ? "Open"
+                                : "Closed"}
                         </HText>
                     </View>
-                    <HText fontWeight="medium">{item?.distance}</HText>
+                    <HText fontWeight="medium">{item?.distance || "0km"}</HText>
                     <View style={styles.placeRow2}>
                         <Image source={starIcon} />
-                        <HText fontWeight="medium">{item?.rating}</HText>
+                        <HText fontWeight="medium">{item?.rating || 1}</HText>
                     </View>
                 </View>
             </View>
@@ -68,7 +74,10 @@ const NearbyPlaces = () => {
 
     const [places, setPlaces] = useState<any>([]);
 
+    const [loading, setLoading] = useState(false);
+
     const searchPlaces = async () => {
+        setLoading(true);
         devInstance
             .get(
                 `/nearby_places?latitude=6.6202593&longitude=3.29754&radius=80000&keyword=${searchText}`
@@ -82,7 +91,9 @@ const NearbyPlaces = () => {
                     type: "error",
                     text1: "Error fetching resources",
                 });
-            });
+                console.log(err, "console");
+            })
+            .finally(() => setLoading(false));
     };
 
     useEffect(() => {
@@ -186,14 +197,18 @@ const NearbyPlaces = () => {
                 </ScrollView>
             </View>
 
-            <FlatList
-                columnWrapperStyle={styles.places}
-                style={styles.placesContainer}
-                numColumns={2}
-                data={data}
-                keyExtractor={(item: any) => item?.title}
-                renderItem={({ item }) => <Place item={item} />}
-            />
+            {loading ? (
+                <ActivityIndicator size="large" style={{ marginTop: 40 }} />
+            ) : (
+                <FlatList
+                    columnWrapperStyle={styles.places}
+                    style={styles.placesContainer}
+                    numColumns={2}
+                    data={places}
+                    keyExtractor={(item: any) => item?.name}
+                    renderItem={({ item }) => <Place item={item} />}
+                />
+            )}
         </View>
     );
 };

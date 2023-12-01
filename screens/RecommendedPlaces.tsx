@@ -1,4 +1,5 @@
 import {
+    ActivityIndicator,
     FlatList,
     Image,
     ScrollView,
@@ -30,15 +31,19 @@ const savePlace = require("../assets/images/save-place.png");
 const Place = ({ item }: any) => {
     return (
         <TouchableOpacity style={styles.place}>
-            <Image source={item?.image} style={styles.placeImage} />
+            <Image source={{ uri: item?.image }} style={styles.placeImage} />
             <View style={styles.placeContent}>
                 <View style={styles.placeContentTop}>
                     <View style={styles.placeContentTitle}>
                         <HText fontSize="14" fontWeight="semibold">
-                            {item?.title}
+                            {item?.name?.length > 20
+                                ? item?.name?.slice(0, 20) + "..."
+                                : item?.name}
                         </HText>
                         <HText color="#777777" fontWeight="medium">
-                            {item?.location}
+                            {item?.address?.length > 20
+                                ? item?.address?.slice(0, 20) + "..."
+                                : item?.address}
                         </HText>
                     </View>
                     <TouchableOpacity>
@@ -55,7 +60,7 @@ const Place = ({ item }: any) => {
                         ]}
                     >
                         <HText color="#5DB400" fontWeight="medium">
-                            {item?.distance}
+                            {item?.distance || "0km"}
                         </HText>
                     </View>
                     <View style={styles.placeRow2}>
@@ -75,7 +80,10 @@ const RecommendedPlaces = () => {
 
     const [places, setPlaces] = useState<any>([]);
 
+    const [loading, setLoading] = useState(false);
+
     const searchPlaces = async () => {
+        setLoading(true);
         devInstance
             .get(
                 `/nearby_places?latitude=6.6202593&longitude=3.29754&radius=80000&keyword=${searchText}`
@@ -89,7 +97,8 @@ const RecommendedPlaces = () => {
                     type: "error",
                     text1: "Error fetching resources",
                 });
-            });
+            })
+            .finally(() => setLoading(false));
     };
 
     useEffect(() => {
@@ -184,13 +193,17 @@ const RecommendedPlaces = () => {
                 onChangeText={(text: string) => setSearchText(text)}
             />
 
-            <FlatList
-                contentContainerStyle={styles.places}
-                showsVerticalScrollIndicator={false}
-                data={data}
-                keyExtractor={(item: any) => item?.id}
-                renderItem={({ item }) => <Place item={item} />}
-            />
+            {loading ? (
+                <ActivityIndicator size="large" style={{ marginTop: 40 }} />
+            ) : (
+                <FlatList
+                    contentContainerStyle={styles.places}
+                    showsVerticalScrollIndicator={false}
+                    data={places}
+                    keyExtractor={(item: any) => item?.name}
+                    renderItem={({ item }) => <Place item={item} />}
+                />
+            )}
         </View>
     );
 };
@@ -233,6 +246,7 @@ const styles = StyleSheet.create({
     },
     placeImage: {
         height: 100,
+        width: 90,
         borderRadius: 16,
     },
     placeContent: {
