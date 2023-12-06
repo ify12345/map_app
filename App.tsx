@@ -1,6 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./Tabs/Home";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
@@ -9,9 +8,26 @@ import Language from "./screens/onboarding/Language";
 import OnboardingSlides from "./screens/onboarding/OnboardingSlides";
 import Toast from "react-native-toast-message";
 import SignupOverview from "./screens/onboarding/SignupOverview";
+import Signup from "./screens/onboarding/Signup";
+import Signin from "./screens/onboarding/Signin";
+import SigninOverview from "./screens/onboarding/SigninOverview";
+import PointOfInterest from "./screens/onboarding/PointOfInterest";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import ForgotPassword from "./screens/onboarding/ForgotPassword";
+import ForgotPassword2 from "./screens/onboarding/ForgotPassword2";
+import Tabs from "./screens/Tabs";
+import * as Linking from "expo-linking";
+import HText from "./components/HText";
+import NearbyPlaces from "./screens/NearbyPlaces";
+import RecommendedPlaces from "./screens/RecommendedPlaces";
+import sideStack from "./screens/Tabs/SideStack";
+import SideStack from "./screens/Tabs/SideStack";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
+const prefix = Linking.createURL("/");
 
 export default function App() {
     const [appIsReady, setAppIsReady] = useState(false);
@@ -22,10 +38,14 @@ export default function App() {
         GeneralSansSemibold: require("./assets/fonts/GeneralSans-Semibold.ttf"),
     });
 
+    const linking = {
+        prefixes: [prefix],
+    };
+
     useEffect(() => {
         async function prepare() {
             try {
-                await fontsLoaded;
+                fontsLoaded;
                 await new Promise((resolve) => setTimeout(resolve, 2000));
             } catch (e) {
                 console.warn(e);
@@ -48,28 +68,85 @@ export default function App() {
     }
 
     return (
-        <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName="Languages">
-                    <Stack.Screen
-                        name="Languages"
-                        component={Language}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="OnboardingSlides"
-                        component={OnboardingSlides}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="SignupOverview"
-                        component={SignupOverview}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen name="Home" component={Home} />
-                </Stack.Navigator>
-            </NavigationContainer>
-            <Toast />
-        </View>
+        <Provider store={store}>
+            <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+                <SafeAreaProvider>
+                    <NavigationContainer
+                        linking={linking}
+                        fallback={<HText>Loading...</HText>}
+                    >
+                        <Stack.Navigator initialRouteName="Languages">
+                            <Stack.Screen
+                                name="Languages"
+                                component={Language}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="OnboardingSlides"
+                                component={OnboardingSlides}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="SignupOverview"
+                                component={SignupOverview}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="SigninOverview"
+                                component={SigninOverview}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Signup"
+                                component={Signup}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Signin"
+                                component={Signin}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="ForgotPasswordScreen1"
+                                component={ForgotPassword}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="ForgotPasswordScreen2"
+                                component={ForgotPassword2}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="PointOfInterest"
+                                component={PointOfInterest}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Tabs"
+                                component={Tabs}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="NearbyPlaces"
+                                component={NearbyPlaces}
+                                options={{
+                                    headerTitle: "Nearby Places",
+                                    headerTintColor: "#1f1f1f",
+                                }}
+                            />
+                            <Stack.Screen
+                                name="RecommendedPlaces"
+                                component={RecommendedPlaces}
+                                options={{
+                                    headerTitle: "Recommended Places",
+                                    headerTintColor: "#1f1f1f",
+                                }}
+                            />
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                    <Toast />
+                </SafeAreaProvider>
+            </View>
+        </Provider>
     );
 }

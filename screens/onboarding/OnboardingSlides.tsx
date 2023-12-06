@@ -1,18 +1,8 @@
-import {
-    View,
-    StyleSheet,
-    ImageBackground,
-    Animated,
-    TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, ImageBackground, Animated } from "react-native";
 import React, { useState } from "react";
 import HText from "../../components/HText";
 import { useNavigation } from "@react-navigation/native";
-// import Animated, {
-//     useSharedValue,
-//     withSpring,
-//     useAnimatedStyle,
-// } from "react-native-reanimated";
+import HTouchableOpacity from "../../components/HTouchableOpacity";
 
 const onboarding1 = require("../../assets/images/onboarding1.png");
 const onboarding2 = require("../../assets/images/onboarding2.png");
@@ -20,7 +10,6 @@ const onboarding2 = require("../../assets/images/onboarding2.png");
 const OnboardingSlides = () => {
     const [image, setImage] = useState(onboarding1);
     const navigation: any = useNavigation();
-    // const translateX = useSharedValue(0);
 
     const texts = [
         {
@@ -104,22 +93,22 @@ const OnboardingSlides = () => {
                     </Animated.View>
                 </View>
                 <View style={styles.actionsContainer}>
-                    <TouchableOpacity
+                    <HTouchableOpacity
                         style={[styles.leftButton, styles.button]}
                         onPress={navigateToSignup}
                     >
                         <HText fontSize="16" fontWeight="semibold">
                             skip
                         </HText>
-                    </TouchableOpacity>
-                    <TouchableOpacity
+                    </HTouchableOpacity>
+                    <HTouchableOpacity
                         style={[styles.rightButton, styles.button]}
                         onPress={nextAction}
                     >
                         <HText fontSize="16" fontWeight="semibold">
                             Next
                         </HText>
-                    </TouchableOpacity>
+                    </HTouchableOpacity>
                 </View>
             </View>
         </View>
@@ -129,6 +118,7 @@ const OnboardingSlides = () => {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor: "#fff",
     },
     top: {
         flex: 1.2,

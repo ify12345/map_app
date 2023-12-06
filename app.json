@@ -14,6 +14,7 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "scheme": "roadersmap",
     "ios": {
       "supportsTablet": true
     },
@@ -25,6 +26,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "react-native-email-link"
+      // [
+      //   "expo-location",
+      //   {
+      //     "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+      //   }
+      // ]
+    ]
   }
 }
