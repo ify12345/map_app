@@ -10,6 +10,7 @@ import {
     UserIcon,
 } from "react-native-heroicons/outline";
 import { useState } from "react";
+import SideStack from "./SideStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +33,27 @@ function Tabs() {
                     tabBarInactiveTintColor: "#777777",
                 }}
             />
+            
+
             <Tab.Screen
+                name="Go"
+                component={SideStack}
+                options={{
+                    tabBarStyle: {
+                        display: hide ? "none" : "flex",
+                    },
+                    headerShown: false,
+                    tabBarIcon: ({ color }) => (
+                        <MapIcon color={color} size={28} />
+                    ),
+                    tabBarActiveTintColor: "#5DB400",
+                    tabBarInactiveTintColor: "#777777",
+                }}
+            />
+        
+
+
+            {/* <Tab.Screen
                 name="Go"
                 options={{
                     tabBarStyle: {
@@ -47,7 +68,8 @@ function Tabs() {
                 }}
             >
                 {(props) => <Go {...props} hideTab={hideTab} />}
-            </Tab.Screen>
+            </Tab.Screen> */}
+
             <Tab.Screen
                 name="Saved"
                 component={Saved}
@@ -60,6 +82,7 @@ function Tabs() {
                     tabBarInactiveTintColor: "#777777",
                 }}
             />
+
             <Tab.Screen
                 name="Profile"
                 component={Profile}

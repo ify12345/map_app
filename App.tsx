@@ -22,6 +22,8 @@ import * as Linking from "expo-linking";
 import HText from "./components/HText";
 import NearbyPlaces from "./screens/NearbyPlaces";
 import RecommendedPlaces from "./screens/RecommendedPlaces";
+import sideStack from "./screens/Tabs/SideStack";
+import SideStack from "./screens/Tabs/SideStack";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();

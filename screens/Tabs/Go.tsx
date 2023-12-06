@@ -5,6 +5,7 @@ import {
     Platform,
     ScrollView,
     StyleSheet,
+    Text,
     View,
 } from "react-native";
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
@@ -25,9 +26,13 @@ import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY } from "../../apiKeys";
 import CancelIcon from "../../assets/icons/cancelIcon";
 import PlusIcon from "../../assets/icons/Plus";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from '@react-navigation/native'
+import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList, createDrawerNavigator } from "@react-navigation/drawer"
+
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Geocoder from "react-native-geocoding";
-
+type CustomDrawerContentProps = DrawerContentComponentProps;
 const pointOfInterest = [
     {
         title: "First",
@@ -68,6 +73,26 @@ const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.04;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+
+const Drawer = createDrawerNavigator();
+
+const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      {/* Additional custom items if needed */}
+    </DrawerContentScrollView>
+  );
+};
+
+const Weather = () => {
+  return (
+    <View>
+      <Text>Weather Screen</Text>
+    </View>
+  );
+};
 
 const Go = (props: any) => {
     const insets = useSafeAreaInsets();
@@ -187,19 +212,31 @@ const Go = (props: any) => {
     };
 
     console.log(destination, "destination");
+    const navigation = useNavigation();
 
+    const openDrawer = () => {
+      navigation.dispatch(DrawerActions.openDrawer());
+    };
+  
     return (
+        
         <>
-            <View style={[styles.wrapper, { paddingTop: insets.top }]}>
-                {!bottomSheet2 && !startJourney && (
-                    <View style={styles.topBar}>
-                        <HTouchableOpacity>
-                            <Image
-                                source={require("../../assets/icons/menu-bar.png")}
-                            />
-                        </HTouchableOpacity>
-                    </View>
-                )}
+            <View style={[styles.wrapper, ]}>
+           
+      <View>
+        {!bottomSheet2 && !startJourney && (
+          <View style={styles.topBar}>
+            <HTouchableOpacity onPress={openDrawer}>
+              <Image
+                source={require("../../assets/icons/menu-bar.png")}
+              />
+            </HTouchableOpacity>
+          </View>
+        )}
+      </View>
+            
+
+
                 {bottomSheet2 && !startJourney && (
                     <View
                         style={{
